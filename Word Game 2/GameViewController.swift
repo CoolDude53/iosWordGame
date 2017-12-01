@@ -8,10 +8,8 @@
 
 import UIKit
 
-class GameViewController: UIViewController {
-
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var guessField: UITextField!
+class GameViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+    
     
     var guesses = [String]()
     var responses = [String]()
@@ -21,8 +19,8 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        tableView.dataSource = self
-        tableView.delegate = self
+        //tableView.dataSource = self
+        //tableView.delegate = self
        
         generateWordBank()
        
@@ -48,46 +46,13 @@ class GameViewController: UIViewController {
     }
     
     func check(guess: String) {
-        if guesses.count == 30 && guess != answer {
-            responses.append("You lose!")
-            guessField.isEnabled = false
-        } else {
-            if guess < answer {
-                responses.append("Go Further")
-            } else if guess > answer {
-                responses.append("Too Far")
-            } else {
-                responses.append("Correct, you win!")
-                guessField.isEnabled = false
-            }
-        }
-        
-        attempts += 1
+        //game logic (Lose, Win, Go Farther, Too Far
+        //update attempts counter
+        //update table
+    }
+    
 
-        tableView.reloadData()
-    }
     
-    @IBAction func guessEntered(_ sender: Any) {
-        let guess = guessField.text!
-        guessField.text = ""
-        guesses.append(guess)
-        check(guess: guess)
-    }
-    
-    @IBAction func resetButton(_ sender: Any) {
-        guessField.isEnabled = true
-        guesses.removeAll()
-        responses.removeAll()
-        let index = Int(arc4random_uniform(UInt32((wordBank?.count)!)))
-        answer = wordBank?[index] ?? ""
-        print(answer)
-        attempts = 0
-        tableView.reloadData()
-    }
-    
-}
-
-extension GameViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return guesses.count
@@ -100,3 +65,7 @@ extension GameViewController: UITableViewDelegate, UITableViewDataSource {
         return cell
     }
 }
+
+
+
+
